@@ -1,15 +1,13 @@
 import { FormDivider, FormRow, FormSection, FormSwitch, FormText, FormInput } from 'enmity/components';
 import { Constants, React, StyleSheet, Toasts } from 'enmity/metro/common';
 import { get, set } from 'enmity/api/settings'
-import locale from '../common/locale';
 import { getIDByName } from 'enmity/api/assets';
 import { reload } from 'enmity/api/native';
 
 export default ({ Manifest }) => {
-    const [isStrange, setIsStrange] = React.useState(get(Manifest.name, 'strangeCode', 0));
-    const [customVenURL, setCustomVenURL] = React.useState(get(Manifest.name, 'customVendettaURL', {
+    const [customBnURL, setCustomBnURL] = React.useState(get(Manifest.name, 'customBunnyURL', {
         enabled: false,
-        url: "http://localhost:4040/vendetta.js"
+        url: "http://localhost:4040/Bunny.js"
     }) as { enabled: boolean, url: string });
     const styles = StyleSheet.createThemedStyleSheet({
         icon: {
@@ -25,78 +23,59 @@ export default ({ Manifest }) => {
     })
 
     return <>
-        <FormSection title={locale.settings.strangeWording.title[isStrange]}>
+        <FormSection title="Settings">
             <FormRow
-                label={locale.settings.strangeWording.title[isStrange]}
-                subLabel={locale.settings.strangeWording.description[isStrange]}
-                leading={<FormRow.Icon style={styles.icon} source={getIDByName("ic_locale_24px")} />}
+                label="Custom Bunny URL"
+                subLabel="Load Bunny from a custom url"
+                leading={<FormRow.Icon style={styles.icon} source={getIDByName("ic_link_24px")} />}
                 trailing={<FormSwitch
-                    value={get(Manifest.name, 'strangeCode', 0) == 0 ? true : false}
-                    onValueChange={() => {
-                        setIsStrange((previous: number) => previous == 0 ? 1 : 0)
-                        set(Manifest.name, "strangeCode", get(Manifest.name, 'strangeCode', 0) == 0 ? 1 : 0)
-
-                        Toasts.open({
-                            content: locale.toasts.strangeText(get(Manifest.name, 'strangeCode', 0) == 0 ? "Enabled" : "Disabledetta")[isStrange],
-                            source: locale.toasts.icons.success
-                        })
-                    }}
-                />}
-            />
-            <FormRow
-                label={locale.settings.customVendettaURL.title[isStrange]}
-                subLabel={locale.settings.customVendettaURL.description[isStrange]}
-                leading={<FormRow.Icon style={styles.icon} source={getIDByName("ic_locale_24px")} />}
-                trailing={<FormSwitch
-                    value={customVenURL.enabled}
-                    onValueChange={() => setCustomVenURL((prev: any) => {
-                        set(Manifest.name, "customVendettaURL", { enabled: true, url: prev.url });
+                    value={customBnURL.enabled}
+                    onValueChange={() => setCustomBnURL((prev: any) => {
+                        set(Manifest.name, "customBnURL", { enabled: true, url: prev.url });
                         return { enabled: true, url: prev.url };
                     })}
                 />}
             />
-            {customVenURL.enabled && (
+            {customBnURL.enabled && (
                 <FormInput
-                    value={customVenURL.url}
-                    onChangeText={(txt: string) => setCustomVenURL((prev: any) => {
-                        set(Manifest.name, "customVendettaURL", { enabled: prev.enabled, url: txt });
+                    value={customBnURL.url}
+                    onChangeText={(txt: string) => setCustomBnURL((prev: any) => {
+                        set(Manifest.name, "customBunnyURL", { enabled: prev.enabled, url: txt });
                         return { enabled: prev.enabled, url: txt };
                     })}
-                    placeholder="http://localhost:4040/vendetta.js"
-                    title={locale.settings.customVendettaURL.input[isStrange]}
+                    placeholder="http://localhost:4040/Bunny.js"
+                    title="Bunny URL"
                 />
             )}
         </FormSection>
         <FormDivider />
-        <FormSection title={locale.settings.clearOptions.title[isStrange]}>
+        <FormSection title="Clear Stores">
             <FormRow
-                label={locale.settings.clearOptions.title[isStrange]}
-                subLabel={locale.settings.clearOptions.description[isStrange]}
+                label="Clear Stores"
+                subLabel="Clear enable dialog and cached code."
                 leading={<FormRow.Icon style={styles.icon} source={getIDByName('ic_message_delete')} />}
                 trailing={() => <FormRow.Arrow />}
                 onPress={() => {
                     set(Manifest.name, "shownEnabledDialog", false)
-                    set(Manifest.name, "strangeCode", 0)
-                    setIsStrange(0)
 
                     Toasts.open({
-                        content: locale.toasts.clear[isStrange],
-                        source: locale.toasts.icons.success
+                        content: "Successfully cleared all stored data.",
+                        source: getIDByName('ic_check_18px')
                     })
                 }}
             />
         </FormSection>
         <FormDivider />
-        <FormSection title={locale.settings.reload.title[isStrange]}>
+        <FormSection title="Reload">
             <FormRow
-                label={locale.settings.reload.title[isStrange]}
-                subLabel={locale.settings.reload.description[isStrange]}
+                label="Reload"
+                subLabel="Reload Discord to apply any changes."
                 leading={<FormRow.Icon style={styles.icon} source={getIDByName('ic_message_retry')} />}
                 trailing={() => <FormRow.Arrow />}
                 onPress={() => reload()}
             />
         </FormSection>
         <FormDivider />
-        <FormText style={styles.info}>{locale.settings.info()[isStrange]}</FormText>
+        <FormText>Version ${Manifest.version} by ${Manifest.authors.map(author => author.name).join(", ")}</FormText>
     </>
 };

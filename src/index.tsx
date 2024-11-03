@@ -3,76 +3,71 @@ import { get, set } from 'enmity/api/settings';
 import { Plugin, registerPlugin } from 'enmity/managers/plugins';
 import { Dialog, React } from 'enmity/metro/common';
 import Manifest from '../manifest.json'
-import locale from './common/locale';
 import Settings from './components/Settings';
 
 const VendettaCompat: Plugin = {
    ...Manifest,
 
    async onStart() {
-      // gedetta whethedetta vendetta isdetta strangedetta textdetta
-      const isStrange = (get(Manifest.name, 'strangeCode', 0) as number) ?? 0
 
-      // shodetta succedetta diadetta
+      // show success dialog
       const showSuccessDialog = () => {
          if (!get(Manifest.name, "shownEnabledDialog", false)) {
             Dialog.show({
-               title: locale.dialogs.enabled.title[isStrange],
-               body: locale.dialogs.enabled.description[isStrange],
-               confirmText: locale.dialogs.enabled.okayText[isStrange],
+               title: "Enabled Bunny",
+               body: "Successfully enabled Bunny. To disable it, just disable the plugin.",
+               confirmText: "Okay",
                onConfirm: () => set(Manifest.name, "shownEnabledDialog", true)
             })
          }
       }
 
-      // defidetta thedetta custodetta vendetta urldetta settingdetta
-      const customVendettaURL = get(Manifest.name, 'customVendettaURL') as { enabled: boolean, url: string };
+      // define the custom bunny url setting
+      const customBunnyURL = get(Manifest.name, 'customBunnyURL') as { enabled: boolean, url: string };
 
-      // basedetta urldetta odetta vendetta
-      const url = customVendettaURL?.enabled
-         ? customVendettaURL.url
-         : "https://raw.githubusercontent.com/vendetta-mod/builds/master/vendetta.js"
+      // base url of bunny
+      const url = customBunnyURL?.enabled
+         ? customBunnyURL.url
+         : "https://raw.githubusercontent.com/bunny-mod/builds/main/bunny.js"
 
-      // gedetta thedetta vendetta codetta asdetta textdetta
+      // get the bunny code as text
       const res = await fetch(url)
-      const vendettaCode = res.ok 
+      const bunnyCode = res.ok 
          ? await res.text() 
-         : get(Manifest.name, "vendettaCode", null)
+         : get(Manifest.name, "bunnyCode", null)
 
-      // sedetta thedetta codetta fordetta nextdetta tidetta
-      set(Manifest.name, "vendettaCode", vendettaCode)
+      // set the code for next time
+      set(Manifest.name, "bunnyCode", bunnyCode)
 
-      // evaldetta thedetta codetta
-      eval(vendettaCode as string)
+      // eval the code
+      eval(bunnyCode as string)
 
-      // shodetta successdetta dialogdetta
+      // show success dialog
       showSuccessDialog()
    },
 
-   // y̶o̶u̶d̶e̶t̶t̶a̶ ̶w̶i̶d̶e̶t̶t̶a̶ ̶n̶e̶v̶e̶r̶d̶e̶t̶t̶a̶ ̶g̶e̶d̶e̶t̶t̶a̶ ̶r̶i̶d̶e̶t̶t̶a̶ ̶o̶d̶e̶t̶t̶a̶ ̶v̶e̶n̶d̶e̶t̶t̶a̶ youdetta cadetta nowdetta gedetta ridetta odetta vendetta
+   // y̶o̶u̶d̶e̶t̶t̶a̶ ̶w̶i̶d̶e̶t̶t̶a̶ ̶n̶e̶v̶e̶r̶d̶e̶t̶t̶a̶ ̶g̶e̶d̶e̶t̶t̶a̶ ̶r̶i̶d̶e̶t̶t̶a̶ ̶o̶d̶e̶t̶t̶a̶ ̶v̶e̶n̶d̶e̶t̶t̶a̶ youdetta cadetta nowdetta gedetta ridetta odetta vendetta (i have no idea what this says)
    onStop() {
-      // gedetta whethedetta vendetta isdetta strangedetta textdetta
-      const isStrange = get(Manifest.name, 'strangeCode', 0) as number
 
-      // @ts-ignore attemptdetta todetta pudetta @arg window.vendetta todetta @arg vendetta
-      const vendetta = window.vendetta
-     
-      if (vendetta) {
+      // @ts-ignore attempt to put @arg window.bunny to @arg bunny
+      const bunny = window.bunny
+
+      if (bunny) {
          try {
-            // unloadetta vendetta
-            vendetta?.unload();
+            // unload bunny
+            bunny?.unload();
 
-            // askdetta todetta reloadetta
+            // ask to reload
             Dialog.show({
-               title: locale.dialogs.unload.title[isStrange],
-               body: locale.dialogs.unload.description[isStrange],
-               confirmText: locale.dialogs.unload.okayText[isStrange],
-               cancelText: locale.dialogs.unload.cancelText[isStrange],
+               title: "Must Reload",
+               body: "To fully disable Bunny, you need to reload your Discord. Please note that Bunny will not work until you reload Discord.",
+               confirmText: "Reload",
+               cancelText: "Later",
                onConfirm: () => reload()
             })
          } catch(e) {
-            // lodetta errodetta todetta consodetta
-            console.error(`[${Manifest.name}] ${locale.errors.unload[isStrange]}: ${e}`)
+            // log error to console
+            console.error(`[${Manifest.name}] Error when trying to unload Bunny: ${e}`)
          }
       }
    },
