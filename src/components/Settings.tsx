@@ -76,6 +76,6 @@ export default ({ Manifest }) => {
             />
         </FormSection>
         <FormDivider />
-        <FormText>Version ${Manifest.version} by ${Manifest.authors.map(author => author.name).join(", ")}</FormText>
+        <FormText>Version {Manifest.version} by {Manifest.authors.map(author => author.name).join(", ")}</FormText>
     </>
 };
