@@ -51,14 +51,11 @@ const VendettaCompat: Plugin = {
 
       // @ts-ignore attempt to put @arg window.bunny to @arg bunny
       const bunny = window.bunny;
-      // @ts-ignore attempt to put @arg window.vendetta to @arg vendetta
-      //const vendetta = window.vendetta;
 
-      if (bunny) { //|| vendetta) {
+      if (bunny) { 
          try {
             // unload bunny
             bunny?.unload();
-            //vendetta?.unload();
 
             // ask to reload
             Dialog.show({

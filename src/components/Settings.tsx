@@ -43,7 +43,7 @@ export default ({ Manifest }) => {
                         set(Manifest.name, "customBunnyURL", { enabled: prev.enabled, url: txt });
                         return { enabled: prev.enabled, url: txt };
                     })}
-                    placeholder="http://localhost:4040/Bunny.js"
+                    placeholder="http://localhost:4040/bunny.js"
                     title="Bunny URL"
                 />
             )}
