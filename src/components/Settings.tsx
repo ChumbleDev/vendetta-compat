@@ -7,7 +7,7 @@ import { reload } from 'enmity/api/native';
 export default ({ Manifest }) => {
     const [customBnURL, setCustomBnURL] = React.useState(get(Manifest.name, 'customBunnyURL', {
         enabled: false,
-        url: "http://localhost:4040/Bunny.js"
+        url: "http://localhost:4040/bunny.js"
     }) as { enabled: boolean, url: string });
     const styles = StyleSheet.createThemedStyleSheet({
         icon: {
