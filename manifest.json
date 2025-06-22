@@ -1,7 +1,7 @@
 {
    "name": "VendettaCompat",
-   "version": "1.2.0",
-   "description": "Use Bunny/Vendetta plugins inside Enmity",
+   "version": "2.0.0",
+   "description": "Multi-layer Discord compatibility plugin supporting Bunny, Vendetta, and Revenge with performance optimizations",
    "authors": [
       {
          "name": "Rosie<3",
@@ -12,5 +12,5 @@
          "id": "861631850681729045"
       }
    ],
-   "color": "#FFFFFF"
+   "color": "#8B5CF6"
 }
